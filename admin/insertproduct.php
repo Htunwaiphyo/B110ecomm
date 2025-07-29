@@ -29,23 +29,23 @@
         <div class="row">
             <?php require_once "navbarcopy.php"; ?>
         </div>
-        <div class="row mx-auto">
+        <div class="row mt-5">
 
-            <div class="col-md-9">
-                <form action="insertproduct.php" method="post" enctype="multipart/form-data" class="form">
+            <div class="col-md-12 mx-auto>
+                <form action="insertproduct.php" method="post" enctype="multipart/form-data" class="form border border-dark rounded p-4">
+                   <div class="row px-5">
+                        <div class="col-md-5 mx-5">
 
-                    <div class="col-md-4">
-
-                        <div class="mb-1 bg-danger">
+                        <div class="mb-1 bg-light">
                                 <label for="pname" class="from-label">Product Name</label>
                                 <input type="text" class="form-control" name="pname">
                         </div>
 
-                        <div class="mb-1 bg-info">
+                        <div class="mb-1 bg-light">
                                 <label for="pname" class="from-label">Price</label>
                                 <input type="text" class="form-control" name="price">
                         </div>
-                        <select name="category" class="form-select bg-primary">
+                        <select name="category" class="form-select bg-light">
                             <option value="">Choose Category</option>
                             <?php
                             if(isset($categories))
@@ -56,8 +56,34 @@
                             }
                             }
                             ?>
-                            
                         </select>
+                        
+                        <div class="col-md-5 mx-5">
+                            <div class="mb-1 bg-light">
+                                <label for="pname" class="from-label">Product Name</label>
+                                <input type="text" class="form-control" name="pname">
+                        </div>
+
+                        <div class="mb-1 bg-light">
+                                <label for="pname" class="from-label">Price</label>
+                                <input type="text" class="form-control" name="price">
+                        </div>
+                        <select name="category" class="form-select bg-light">
+                            <option value="">Choose Category</option>
+                            <?php
+                            if(isset($categories))
+                            {
+                                foreach($categories as $category)
+                            {
+                                echo"<option value=$category[catId]> $category[catName] </option>";
+                            }
+                            }
+                            ?>
+                        </select>
+                        </div>
+                   </div> 
+                   
+                    
                         
                     </div>
 
