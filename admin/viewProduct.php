@@ -1,23 +1,23 @@
-<?php 
-if(!isset($_SESSION)) {
+<?php
+if (!isset($_SESSION)) {
     session_start();
 }
 
 require_once("dbconnect.php");
-try{
+try {
 
-    $sql = "SELECT  p.productID, p.productName, 
+    $sql = "SELECT  p.productId, p.productName, 
         p.price, p.description, p.qty,
         p.imgPath, c.catName as category
         from product p, category c 
         where p.category = c.catID;";
 
-        $stmt = $conn->prepare($sql);
-        $stmt -> execute();
-        $products = $stmt->fetchAll(); // just naming variable for multiple products
-        
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $products = $stmt->fetchAll(); // just naming variable for multiple products
 
-}catch(PDOException $e){
+
+} catch (PDOException $e) {
     echo $e->getMessage();
 }
 
@@ -36,7 +36,7 @@ try{
 
 <body>
     <div class="container-fluid">
-        <div class="row"> 
+        <div class="row">
             <?php require_once "navbarcopy.php";
             ?>
             <div class="row">
@@ -46,47 +46,51 @@ try{
 
                 <div class="col-md-10 py-5">
                     <?php
-                    if(isset($_SESSION["message"])) {
+                    if (isset($_SESSION["message"])) {
                         echo "<p class='alert alert-success' style=width:500px;>$_SESSION[message]</p>";
                         unset($_SESSION["message"]);
+                    } else if (isset($_SESSION["deleteSuccess"])) {
+                        echo "<p class='alert alert-success'>$_SESSION[deleteSuccess]</p>";
+                        unset($_SESSION["deleteSuccess"]);
                     }
+
                     ?>
 
                     <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <td>Name</td>
-                            <td>Category</td>
-                            <td>Price</td>
-                            <td>Description</td>
-                            <td>Quantity</td>
-                            <td>Image</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php 
-                    
-                    foreach($products as $product) 
-                    {   $desc = substr($product["description"],0,100);
-                        echo "<tr>
+                        <thead>
+                            <tr>
+                                <td>Name</td>
+                                <td>Category</td>
+                                <td>Price</td>
+                                <td>Description</td>
+                                <td>Quantity</td>
+                                <td>Image</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+
+                            foreach ($products as $product) {
+                                $desc = substr($product["description"], 0, 100);
+                                echo "<tr>
                             <td>$product[productName]</td>
                                 <td>$product[category]</td>
                                 <td>$product[price]</td>
                                 <td calss='text-wrap'>$desc</td>
                                 <td>$product[qty]</td>
                                 <td><img src=$product[imgPath] style=width:80px> </td>
-                                <td> <a href=insert.php class='btn btn-primary rounded pill'>Edit </a></td>
-                                <td> <a href=delete.php class='btn btn-danger rounded pill'>Delete </a></td>
+                                <td> <a href=editDelete.php?eid=$product[productId] class='btn btn-primary rounded pill'>Edit </a></td>
+                                <td> <a href=editDelete.php?did=$product[productId] class='btn btn-danger rounded pill'>Delete </a></td>
                                 </tr>";
-                    }
-                    
-                    
-                    
-                    ?>
+                            }
 
 
 
-                    </tbody>
+                            ?>
+
+
+
+                        </tbody>
                     </table>
 
 
